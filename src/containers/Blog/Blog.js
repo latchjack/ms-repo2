@@ -8,7 +8,8 @@ import './Blog.css';
 class Blog extends Component {
   state = {
     posts: [],
-    selectedPostId: null
+    selectedPostId: null,
+    error: false
   }
 
   componentDidMount() {
@@ -47,7 +48,10 @@ class Blog extends Component {
         this.setState({ posts: updatedPosts })
         // console.log(response);
         // console.log(response.data);
-      });
+      })
+    .catch(err => {
+      this.setState({ error: true });
+    })
   }
 
   postSelectedHandler = (id) => {
@@ -62,25 +66,28 @@ class Blog extends Component {
   }
 
   render() {
-    const posts = this.state.posts.map(post => {
-      /*
-      |==============================================================
-      | Here we pass props down to the Post component.
-      | key - gives each post its own unique key (required by react).
-      | title - allows the variable title in the Post component
-      | author - hardcoded above and passes it in component to render.
-      | clicked - es6 function will take the post id as an argument 
-      | and pass it to the postSelectHandler to run function on that 
-      | particular post.
-      |==============================================================
-      */
-      return <Post 
-        key={post.id} 
-        title={post.title} 
-        author={post.author} 
-        clicked={() => this.postSelectedHandler(post.id)}
-      />
-    });
+    let posts = <p style={{textAlign: 'center'}}>Something went wrong!</p>
+    if (!this.state.error) {
+      posts = this.state.posts.map(post => {
+        /*
+        |==============================================================
+        | Here we pass props down to the Post component.
+        | key - gives each post its own unique key (required by react).
+        | title - allows the variable title in the Post component
+        | author - hardcoded above and passes it in component to render.
+        | clicked - es6 function will take the post id as an argument 
+        | and pass it to the postSelectHandler to run function on that 
+        | particular post.
+        |==============================================================
+        */
+        return <Post 
+          key={post.id} 
+          title={post.title} 
+          author={post.author} 
+          clicked={() => this.postSelectedHandler(post.id)}
+        />
+      });
+    }
     return (
       <div>
         <section className="Posts">
