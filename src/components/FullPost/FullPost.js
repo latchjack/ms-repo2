@@ -8,7 +8,44 @@ class FullPost extends Component {
     loadedPost: null
   }
 
+  /* 
+  |==============================================
+  | Updating state from componentDidUpdate can cause an infinite loop.
+  | The component would fetch data > set state > re-render > repeat, 
+  | continuouly sending http requests.
+  |==============================================
+  */
   componentDidUpdate() {
+    if (this.props.id) {
+      /* 
+      |==============================================
+      | We need to make sure we only send the http request and update
+      | the state, if a new post is loaded. This stops uneccessary 
+      | re-rendering.
+      | 1. This nested If check inside the outer one, checks to see if
+      | the loadedPost state returns as True.
+      | 2. If we don't have the state of loadedPost OR if we do have it
+      | but it has a different id, then we load the new id.
+      | 3. Check if the loadedPost and the post id is not the same id 
+      | we got via props, which means we wouldn't need to fetch new data
+      | as it's the same id. We only want to fetch and re-render new data.
+      | TLDR; we go ahead and make the request if we have no loadedPost
+      | or if we do have one, but the id doesn't match the one we currently
+      | have stored in state.
+      |==============================================
+      */
+      if(!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
+        axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+        .then(response => {
+          // console.log(response);
+          this.setState({ loadedPost: response.data })
+        });
+      };
+    };
+  };
+
+  render () {
+    let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
     /*
     |==============================================
     | Without this first if statement, the page will
@@ -24,20 +61,14 @@ class FullPost extends Component {
     */
     if (this.props.id) {
       post = <p style={{textAlign: 'center'}}>Loading!</p>;
-    }
-
-    if (this.props.id) {
-      axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
-        .then(response => {
-          // console.log(response);
-          this.setState({ loadedPost: response.data })
-        });
-    }
-  }
-
-  render () {
-    let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
-    if (this.props.id) {
+    };
+    /*
+    |==============================================
+    | The If below is a boolean. It will render the 
+    | post if the loadedPost's state is True. 
+    |==============================================
+    */
+    if (this.state.loadedPost) {
       post = (
         <div className="FullPost">
           {/* 
@@ -57,7 +88,7 @@ class FullPost extends Component {
           </div>
         </div>
       );
-    }
+    };
     return post;
   }
 }
