@@ -9,13 +9,20 @@ class Blog extends Component {
   state = {
     posts: []
   }
-  
+
   componentDidMount() {
     /*
     |==============================================================
-    | Instead of setting state to response.data we set it to updatedPosts
-    | to hardcode the Author field to the data as the backend doesn't
-    | provide this field.
+    | To control the amount of posts we render on the screen at once,
+    | we used the slice method to control the desired amount (0 > 4).
+    | This way the fetch method will still fetch all of the posts,
+    | but it will only store four of them in the posts array, which
+    | is then mapped over in the updatedPosts arrow function below it.
+    |
+    | Next, instead of setting state to response.data, we set it to 
+    | updatedPosts to hardcode the Author field to the data, as the 
+    | backend doesn't provide this field. First we spread the mapped
+    | post and then we added the author field with the name 'Max'.
     |==============================================================
     */
     axios.get('https://jsonplaceholder.typicode.com/posts')
@@ -27,7 +34,16 @@ class Blog extends Component {
             author: 'Max'
           }
         });
-        this.setState({ posts: response.data })
+        /*
+        |==============================================================
+        | Here I've set state to the updatedPosts constant as mentioned
+        | above. Usually I would set this to 'response.data' which would
+        | store all of the fetched data into state. This way using the
+        | functions above I'm able to manipulate the data first before
+        | storing it into state.
+        |==============================================================
+        */
+        this.setState({ posts: updatedPosts })
         // console.log(response);
         // console.log(response.data);
       });
