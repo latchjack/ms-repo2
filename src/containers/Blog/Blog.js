@@ -7,7 +7,8 @@ import './Blog.css';
 
 class Blog extends Component {
   state = {
-    posts: []
+    posts: [],
+    selectedPostId: null
   }
 
   componentDidMount() {
@@ -48,9 +49,35 @@ class Blog extends Component {
         // console.log(response.data);
       });
   }
+
+  postSelectedHandler = (id) => {
+    /*
+    |==============================================================
+    | This takes the post.id argument and sets it to state
+    |==============================================================
+    */
+    this.setState({ selectedPostId: id })
+  }
+
   render() {
     const posts = this.state.posts.map(post => {
-      return <Post key={post.id} title={post.title} author={post.author} />
+      /*
+      |==============================================================
+      | Here we pass props down to the Post component.
+      | key - gives each post its own unique key (required by react).
+      | title - allows the variable title in the Post component
+      | author - hardcoded above and passes it in component to render.
+      | clicked - es6 function will take the post id as an argument 
+      | and pass it to the postSelectHandler to run function on that 
+      | particular post.
+      |==============================================================
+      */
+      return <Post 
+        key={post.id} 
+        title={post.title} 
+        author={post.author} 
+        clicked={() => this.postSelectedHandler(post.id)}
+      />
     });
     return (
       <div>
@@ -58,7 +85,18 @@ class Blog extends Component {
           {posts}
         </section>
         <section>
-          <FullPost />
+          {/* 
+          |==============================================================
+          | The post.id is passed down to the FullPost component, so that 
+          | inside the component we can listen to us getting a new id and
+          | then fetch the data for that id.
+          | 
+          | 
+          | 
+          | 
+          |============================================================== 
+          */}
+          <FullPost id={this.state.selectedPostId} />
         </section>
         <section>
           <NewPost />
