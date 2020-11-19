@@ -53,10 +53,12 @@ class Blog extends Component {
   postSelectedHandler = (id) => {
     /*
     |==============================================================
-    | This takes the post.id argument and sets it to state
+    | This takes the post.id argument and sets it to state inside
+    | selectedPostId. This will allow us to render the post in the
+    | FullPost component later on.
     |==============================================================
     */
-    this.setState({ selectedPostId: id })
+    this.setState({ selectedPostId: id });
   }
 
   render() {
@@ -90,10 +92,6 @@ class Blog extends Component {
           | The post.id is passed down to the FullPost component, so that 
           | inside the component we can listen to us getting a new id and
           | then fetch the data for that id.
-          | 
-          | 
-          | 
-          | 
           |============================================================== 
           */}
           <FullPost id={this.state.selectedPostId} />
