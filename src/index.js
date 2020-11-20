@@ -7,6 +7,9 @@ import axios from 'axios';
 
 /*
 |============================================================
+| The axios defaults function allows us to make some changes to
+| our application and requests too.
+|============================================================
 | By adding this baseURL we can shorten our URL in our requests.
 | The URL we are sending and receiving all of our requests from
 | is always the same (https://jsonplaceholder.typicode.com).
@@ -27,8 +30,18 @@ import axios from 'axios';
 | axios.post('/posts', data)
 | axios.get('/posts')
 |============================================================
+| We can also set:
+| + Common headers
+| + Headers for a specific request i.e post requests
+| ---The example below is setting our content type for our posts
+| ---to application/json (which is just for the example as it's the default)
+|============================================================
 */
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com'
+
+axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 
 /*
 |==============================================================
