@@ -6,6 +6,31 @@ import registerServiceWorker from './registerServiceWorker';
 import axios from 'axios';
 
 /*
+|============================================================
+| By adding this baseURL we can shorten our URL in our requests.
+| The URL we are sending and receiving all of our requests from
+| is always the same (https://jsonplaceholder.typicode.com).
+| When we do a GET or POST request, we add /posts to the end of
+| the URL. To save use from using the long format address in our 
+| Blog, FullPost and NewPost components, we can define the baseURL
+| like below.
+| As the index.js file is our Global file it will append the
+| baseURL to any of our requests made in our other components.
+|
+| Thereby allowing use to use...
+|
+| axios.post('https://jsonplaceholder.typicode.com/posts', data)
+| axios.get('https://jsonplaceholder.typicode.com/posts') 
+|
+| instead of...
+|
+| axios.post('/posts', data)
+| axios.get('/posts')
+|============================================================
+*/
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com'
+
+/*
 |==============================================================
 | Handling errors locally is sensible, because you may want to 
 | handle each error's response differently, depending on which 
