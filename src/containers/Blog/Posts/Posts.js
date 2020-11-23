@@ -17,6 +17,7 @@ class Posts extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props);
     /*
     |==============================================================
     | To control the amount of posts we render on the screen at once,
