@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
 import './Blog.css';
 
 // import axios from 'axios';
@@ -111,19 +108,6 @@ class Blog extends Component {
         </header>
         <section className="Posts">
           {posts}
-        </section>
-        <section>
-          {/* 
-          |==============================================================
-          | The post.id is passed down to the FullPost component, so that 
-          | inside the component we can listen to us getting a new id and
-          | then fetch the data for that id.
-          |============================================================== 
-          */}
-          <FullPost id={this.state.selectedPostId} />
-        </section>
-        <section>
-          <NewPost />
         </section>
       </div>
     );
