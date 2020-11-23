@@ -19,25 +19,25 @@ class FullPost extends Component {
   |==============================================
   */
   componentDidMount() {
+    /* 
+    |==============================================
+    | We need to make sure we only send the http request and update
+    | the state, if a new post is loaded. This stops uneccessary 
+    | re-rendering.
+    | 1. This nested If check inside the outer one, checks to see if
+    | the loadedPost state returns as True.
+    | 2. If we don't have the state of loadedPost OR if we do have it
+    | but it has a different id, then we load the new id.
+    | 3. Check if the loadedPost and the post id is not the same id 
+    | we got via props, which means we wouldn't need to fetch new data
+    | as it's the same id. We only want to fetch and re-render new data.
+    | TLDR; we go ahead and make the request if we have no loadedPost
+    | or if we do have one, but the id doesn't match the one we currently
+    | have stored in state.
+    |==============================================
+    */
     console.log(this.props)
     if (this.props.match.params.id) {
-      /* 
-      |==============================================
-      | We need to make sure we only send the http request and update
-      | the state, if a new post is loaded. This stops uneccessary 
-      | re-rendering.
-      | 1. This nested If check inside the outer one, checks to see if
-      | the loadedPost state returns as True.
-      | 2. If we don't have the state of loadedPost OR if we do have it
-      | but it has a different id, then we load the new id.
-      | 3. Check if the loadedPost and the post id is not the same id 
-      | we got via props, which means we wouldn't need to fetch new data
-      | as it's the same id. We only want to fetch and re-render new data.
-      | TLDR; we go ahead and make the request if we have no loadedPost
-      | or if we do have one, but the id doesn't match the one we currently
-      | have stored in state.
-      |==============================================
-      */
       if(!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
         axios.get('/posts/' + this.props.match.params.id)
         .then(response => {
