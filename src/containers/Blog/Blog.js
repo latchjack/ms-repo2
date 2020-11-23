@@ -17,10 +17,14 @@ class Blog extends Component {
           <nav>
             <ul>
               <li><NavLink 
-                to="/" 
-                exact
-                activeClassName="my-active" // you can change the active css tag that the NavLink has by using this attribute
-                >Home</NavLink></li>
+                    to="/" 
+                    exact
+                    activeClassName="my-active"
+                    activeStyle={{
+                      color: 'fa923f',
+                      textDecoration: 'underline'
+                    }} // this works like styled components
+                  >Home</NavLink></li>
               <li><NavLink to={{
                 pathname: '/new-post',
                 hash: '#submit',
