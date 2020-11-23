@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Post from '../../../components/Post/Post';
 import './Posts.module.css';
+import { Link } from 'react-router-dom';
 import axios from '../../../axios';
 /*
 |==============================================================
@@ -86,12 +87,15 @@ class Posts extends Component {
         | particular post.
         |==============================================================
         */
-        return <Post 
-          key={post.id} 
-          title={post.title} 
-          author={post.author} 
-          clicked={() => this.postSelectedHandler(post.id)}
-        />
+        return (
+          <Link to={'/' + post.id} key={post.id}>
+            <Post
+              title={post.title} 
+              author={post.author} 
+              clicked={() => this.postSelectedHandler(post.id)}
+            />
+          </Link>
+        );
       });
     }
 
