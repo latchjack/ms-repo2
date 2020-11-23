@@ -63,7 +63,6 @@ class Blog extends Component {
 |    hash: '#submit',
 |    search: '?quick-submit=true'
 | }}>New Post</Link></li>
-|
 |=========================================================
 */
 
