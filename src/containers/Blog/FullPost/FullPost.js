@@ -13,10 +13,14 @@ class FullPost extends Component {
   | Updating state from componentDidUpdate can cause an infinite loop.
   | The component would fetch data > set state > re-render > repeat, 
   | continuouly sending http requests.
+  | Changed componentDidUpdate to componentDidMount because now we're
+  | not updating it, it is getting adding or removed from the DOM.
+  | Now we access the id of the post by using this.props.match.params.id
   |==============================================
   */
-  componentDidUpdate() {
-    if (this.props.id) {
+  componentDidMount() {
+    console.log(this.props)
+    if (this.props.match.params.id) {
       /* 
       |==============================================
       | We need to make sure we only send the http request and update
@@ -35,7 +39,7 @@ class FullPost extends Component {
       |==============================================
       */
       if(!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
-        axios.get('/posts/' + this.props.id)
+        axios.get('/posts/' + this.props.match.params.id)
         .then(response => {
           // console.log(response);
           this.setState({ loadedPost: response.data })
