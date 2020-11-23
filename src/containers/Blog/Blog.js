@@ -18,7 +18,7 @@ class Blog extends Component {
             <ul>
               <li><Link to="/">Home</Link></li>
               <li><Link to={{
-                pathname: '/new-post',
+                pathname: this.props.match.url + '/new-post',
                 hash: '#submit',
                 search: '?quick-submit=true'
               }}>New Post</Link></li>
@@ -32,5 +32,39 @@ class Blog extends Component {
     );
   }
 }
+
+/*
+|========================================================= 
+| Absolute vs Relative paths
+|=========================================================
+| An ab is always appended to your domain e.g. if you
+| are serving this app from example.com and you want to
+| navigate to example.com/new-post, it would always attach
+| '/new-post' right after the domain name. So if you were
+| at example.com/posts, it would become example.com/new-posts
+| whereas a relative path would make it example.com/posts/new-post.
+|
+| 
+| The 'to' attribute of the Link component always generates an
+| absolute path. You need to build the path dynamically if you
+| want to generate a relative path.
+| Examples...
+|
+| ABSOLUTE:
+| <li><Link to={{
+|    pathname: '/new-post',
+|    hash: '#submit',
+|    search: '?quick-submit=true'
+| }}>New Post</Link></li>
+|
+| RELATIVE:
+| <li><Link to={{
+|    pathname: this.props.match.url + '/new-post',
+|    hash: '#submit',
+|    search: '?quick-submit=true'
+| }}>New Post</Link></li>
+|
+|=========================================================
+*/
 
 export default Blog;
