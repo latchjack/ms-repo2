@@ -13,7 +13,7 @@ const post = (props) => (
 
 /*
 |=====================================================
-| The routing related props are not passed down the
+| The props related to routing are not passed down the
 | component tree. 
 | 
 | There are a few ways we can hand the router props
