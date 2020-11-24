@@ -1,11 +1,33 @@
 import React, { Component } from 'react';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import './Blog.css';
-import Posts from '../Blog/Posts/Posts';
-import NewPost from '../Blog/NewPost/NewPost';
+import Posts from './Posts/Posts';
 
-// import axios from 'axios';
-// import axios from '../../axios';
+// import NewPost from './NewPost/NewPost';
+import asyncComponent from '../../hoc/asyncComponent';
+const AsyncNewPost = asyncComponent(() => {
+  return import('./NewPost/NewPost');
+});
+
+/*
+|=======================================
+| When you import the components like above
+| you're telling Webpack that these components
+| are dependancies of the component it is rendering.
+| To lazy load you have to change the way you
+| import the component.
+| To do this we import the asyncComponent we made.
+| The asyncComponent function requires an
+| argument (importComponent in its component).
+| So we assign it to the AsyncNewPost constant and
+| then tell it to import the NewPost component.
+| This way, the NewPost component will only be 
+| downloaded and rendered when the asyncComponent is 
+| executed, will only happen when the AsyncNewPost
+| const is rendered. Which is only when the user 
+| navigates to /new-post.
+|=======================================
+*/
 
 class Blog extends Component {
   state = {
@@ -37,7 +59,7 @@ class Blog extends Component {
         </header>
         {/* <Route path="/" exact render={() => <h1>Home</h1>} /> */}
         <Switch>
-          {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
+          {this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null}
           <Route path="/posts" component={Posts} />
           <Route render={() => <h1>Page not found</h1>} />
           {/* <Redirect from="/" to="/posts" /> */}
