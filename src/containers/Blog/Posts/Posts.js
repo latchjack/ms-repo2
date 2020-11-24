@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Post from '../../../components/Post/Post';
+import { Route } from 'react-router-dom';
+import FullPost from '../FullPost/FullPost';
 import './Posts.module.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import axios from '../../../axios';
 /*
 |==============================================================
@@ -62,14 +64,22 @@ class Posts extends Component {
   }
 
   postSelectedHandler = (id) => {
+    // this.props.history.push({pathname: '/' + id});
+    this.props.history.push('/' + id);
     /*
+    |==============================================================
+    | Programmatic Navigation - We use the history object we received
+    | via the props to navigate around (go forward or backwards).
+    | Inside the push method you can enter either a string or an object
+    | to navigate to, just like you can with the 'to' attribute in the
+    | Link and NavLink component.
     |==============================================================
     | This takes the post.id argument and sets it to state inside
     | selectedPostId. This will allow us to render the post in the
     | FullPost component later on.
     |==============================================================
     */
-    this.setState({ selectedPostId: id });
+    // this.setState({ selectedPostId: id });
   }
 
   render() {
@@ -88,21 +98,32 @@ class Posts extends Component {
         |==============================================================
         */
         return (
-          <Link to={'/' + post.id} key={post.id}>
+          // <Link to={'/posts/' + post.id} key={post.id}>
             <Post
               title={post.title} 
               author={post.author} 
               clicked={() => this.postSelectedHandler(post.id)}
             />
-          </Link>
+          // </Link>
         );
       });
     }
 
+    /*
+    |======================================================
+    | Below is a nested route. This is how we can load a 
+    | component inside of another component which is loaded
+    | via routing.
+    |======================================================
+    */
+
     return(
-      <section className="Posts">
-        {posts}
-      </section>
+      <div>
+        <section className="Posts">
+          {posts}
+        </section>
+        <Route path="/:id" exact component={FullPost} />
+      </div>
     )
   }
 }
