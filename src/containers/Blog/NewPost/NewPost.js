@@ -32,12 +32,28 @@ class NewPost extends Component {
     |=====================================
     | Here we pass the data object to the POST url.
     | This runs asynchronously.
+    | 
+    | To make the page redirect to the posts page
+    | after submitting a post we can either use
+    | this.setState({ submitted: true })
+    | or
+    | this.props.history.push('/posts')
+    | The main difference is the push method adds
+    | the last page to the stack, so you can navigate
+    | back to it with the browser's back button.
+    | Whereas redirect replaces the current page, so
+    | if you click the back button, you can go back but
+    | it wont be back but it skips the last page.
+    | If you want to replicate this method but still use
+    | the history method you can do so by writing...
+    | this.props.history.replace('/posts')
     |=====================================
     */
     axios.post('/posts', data)
       .then(response => {
         console.log(response);
-        this.setState({ submitted: true })
+        // this.setState({ submitted: true }) or...
+        this.props.history.push('/posts');
       });
   }
 
