@@ -13,6 +13,16 @@ class NewPost extends Component {
   }
 
   componentDidMount() {
+    /*
+    |=====================================
+    | You can add user authentication here if you
+    | wanted the NewPost component to redirect the
+    | user back to the Home/Posts component if 
+    | they're not authenticated.
+    |
+    | this.props.history.replace('/posts/');
+    |=====================================
+    */
     console.log(this.props);
   }
 

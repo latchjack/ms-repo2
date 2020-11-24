@@ -8,6 +8,9 @@ import NewPost from '../Blog/NewPost/NewPost';
 // import axios from '../../axios';
 
 class Blog extends Component {
+  state = {
+    auth: false
+  }
 
   render() {
     return (
@@ -34,9 +37,10 @@ class Blog extends Component {
         </header>
         {/* <Route path="/" exact render={() => <h1>Home</h1>} /> */}
         <Switch>
-          <Route path="/new-post" component={NewPost} />
+          {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
           <Route path="/posts" component={Posts} />
-          <Redirect from="/" to="/posts" />
+          <Route render={() => <h1>Page not found</h1>} />
+          {/* <Redirect from="/" to="/posts" /> */}
           {/* <Route path="/" component={Posts} /> */}
         </Switch>
       </div>
@@ -59,6 +63,10 @@ class Blog extends Component {
 | route to another route. 
 | <Redirect from="/" to="/posts" />
 | If the user lands on "/" we redirect them to "/posts".
+| You can't use the Redirect component along with the 404 Route
+| ( <Route render={() => <h1>Page not found</h1>} /> ) as the 
+| 'from="/"' acts as a 'catch-all' and would redirect the use to
+| the /posts endpoint instead of displaying the Not Found h1.
 |=========================================================
 */
 
