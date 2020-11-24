@@ -37,8 +37,29 @@ class FullPost extends Component {
     |==============================================
     */
     console.log(this.props)
+    this.loadData();
+  };
+
+  componentDidUpdate() {
+    /*
+    |==============================================
+    | After clicking a post the component will render onto
+    | the screen, however if you click another post after
+    | the component was rendered, it will not update the page
+    | this is because the componentDidMount doesn't run again.
+    | To get another post to load after one has been clicked we
+    | use the componentDidUpdate method.
+    | We create the loadData function below, to allow us to call
+    | it in both componentDidMount and componentDidUpdate without
+    | repeating the code that is within the function.
+    |==============================================
+    */
+    this.loadData();
+  }
+
+  loadData () {
     if (this.props.match.params.id) {
-      if(!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
+      if(!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id)) {
         axios.get('/posts/' + this.props.match.params.id)
         .then(response => {
           // console.log(response);
@@ -46,7 +67,7 @@ class FullPost extends Component {
         });
       };
     };
-  };
+  }
 
   deletePostHandler = () => {
     /*
@@ -56,7 +77,7 @@ class FullPost extends Component {
     | needed for it, as it has everything it needs.
     |=====================================
     */
-    axios.delete('/posts/' + this.props.id)
+    axios.delete('/posts/' + this.props.match.params.id)
       .then(response => {
         console.log(response);
       });
@@ -77,7 +98,7 @@ class FullPost extends Component {
     | been set to state.
     |==============================================
     */
-    if (this.props.id) {
+    if (this.props.match.params.id) {
       post = <p style={{textAlign: 'center'}}>Loading!</p>;
     };
     /*
